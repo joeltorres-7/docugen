@@ -1,6 +1,8 @@
+import 'package:docugen/views/builder.dart';
 import 'package:docugen/views/components/cards/action_card.dart';
 import 'package:docugen/views/styles/resources.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Home extends StatelessWidget {
@@ -14,6 +16,8 @@ class Home extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         children: [
           Container(
+            height: 100.0,
+            width: 100.0,
             child: SizedBox(
               height: 100.0,
               child: Column(
@@ -32,27 +36,44 @@ class Home extends StatelessWidget {
                           children: [
                             Container(
                               margin: const EdgeInsets.only(right: 0.0),
-                              child: ActionCard(cardTitle: Resources.strings.leasingContract, cardDescription: Resources.strings.leasingContractDescription, buttonText: Resources.strings.generateNow),
+                              child: ActionCard(cardTitle: Resources.strings.leasingContract, cardDescription: Resources.strings.leasingContractDescription, buttonText: Resources.strings.generateNow, onPressed: () => Navigator.of(buildContext).push(_builderRoute())),
                             ),
                             Container(
                               margin: EdgeInsets.only(left: 24.0),
-                              child: ActionCard(cardTitle: Resources.strings.guardianshipAction, cardDescription: Resources.strings.guardianshipActionDescription, buttonText: Resources.strings.generateNow),
+                              child: ActionCard(cardTitle: Resources.strings.guardianshipAction, cardDescription: Resources.strings.guardianshipActionDescription, buttonText: Resources.strings.generateNow, onPressed: (){},),
                             ),
                           ],
                         ),
                         Container(
                           margin: EdgeInsets.only(top: 24.0),
-                          child: Text('Fuck you!!!', style: TextStyle(color: Colors.white),),
+                          child: Text(Resources.strings.demoText, style: Resources.textStyles.paragraph3),
                         )
                       ],
                     ),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(Resources.strings.copyright, style: Resources.textStyles.paragraph3),
+                    ],
                   )
                 ],
               )
             ),
-          ),
+          ).animate().fade(delay: 100.ms).fadeIn(),
         ],
       ),
     );
   }
+}
+
+Route _builderRoute() {
+  return PageRouteBuilder(
+    pageBuilder: (context, animation, secondaryAnimation) => BuilderView(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return child;
+    },
+  );
 }

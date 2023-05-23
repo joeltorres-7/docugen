@@ -3,11 +3,12 @@ import 'package:docugen/views/styles/resources.dart';
 import 'package:flutter/material.dart';
 
 class ActionCard extends StatelessWidget {
-  const ActionCard({Key? key, required this.cardTitle, required this.cardDescription, required this.buttonText}) : super(key: key);
+  const ActionCard({Key? key, required this.cardTitle, required this.cardDescription, required this.buttonText, required this.onPressed}) : super(key: key);
 
   final String cardTitle;
   final String cardDescription;
   final String buttonText;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class ActionCard extends StatelessWidget {
                     )
                   ),
                   Container(
-                    margin: EdgeInsets.only(top: 24.0), child: PrimaryButton(onPressed: (){}, text: buttonText))
+                    margin: EdgeInsets.only(top: 24.0), child: PrimaryButton(onPressed: onPressed, text: buttonText, disabled: false))
                 ]
               ),
             ),
