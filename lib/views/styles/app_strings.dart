@@ -18,6 +18,8 @@ class AppStrings {
   final String backButton = 'Atrás';
   final String continueButton = 'Continuar';
 
+  final String step = 'Paso';
+
   final String generateNow = 'Generar ahora';
   final String demoText = 'Este es un demo. Próximamente implementaremos más tipos de documento*';
   final String copyright = 'Diseñado y desarrollado por Joel Torres @ Go Digital Colombia, 2023';
