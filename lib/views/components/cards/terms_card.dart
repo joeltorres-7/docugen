@@ -1,27 +1,19 @@
 import 'dart:html';
 
+import 'package:docugen/models/bloc/document_form_bloc.dart';
 import 'package:docugen/views/components/buttons/primary_button.dart';
 import 'package:docugen/views/components/buttons/secondary_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../styles/resources.dart';
 
 class TermsCard extends StatelessWidget {
-  const TermsCard({super.key, required this.termsChecked, required this.onTermsChecked, required this.onContinue});
-  
-  final bool termsChecked;
-  final ValueChanged<bool> onTermsChecked;
+  const TermsCard(
+      {super.key,
+      required this.onContinue});
+
   final ValueChanged<bool> onContinue;
-
-  void _handleCheck() {
-    onTermsChecked(termsChecked);
-  }
-
-  void _handleContinue() {
-    if (termsChecked) {
-      onContinue(true);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,46 +74,62 @@ class TermsCard extends StatelessWidget {
                     const SizedBox(
                       height: 16.0,
                     ),
-                    CheckboxListTile(
-                        title: Text(
-                          Resources.strings.termsRead,
-                          style: Resources.textStyles.paragraph2,
-                        ),
-                        value: termsChecked,
-                        controlAffinity: ListTileControlAffinity.leading,
-                        onChanged: ((value) => _handleCheck()),
-                        fillColor: MaterialStateProperty.resolveWith<Color>(
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return Resources.colors.accent;
-                            }
-                            return Resources.colors.accent;
-                          },
-                        )),
+                    BlocBuilder<DocumentFormBloc, DocumentFormInitial>(
+                      builder: (context, state) {
+                        return CheckboxListTile(
+                            title: Text(
+                              Resources.strings.termsRead,
+                              style: Resources.textStyles.paragraph2,
+                            ),
+                            value: state.termsChecked,
+                            controlAffinity: ListTileControlAffinity.leading,
+                            onChanged: (_) => {
+                                  context.read<DocumentFormBloc>().add(
+                                      CheckTerms(
+                                          termsChecked: state.termsChecked)),
+                                },
+                            fillColor: MaterialStateProperty.resolveWith<Color>(
+                              (Set<MaterialState> states) {
+                                if (states.contains(MaterialState.disabled)) {
+                                  return Resources.colors.accent;
+                                }
+                                return Resources.colors.accent;
+                              },
+                            ));
+                      },
+                    ),
                     const SizedBox(
                       height: 16.0,
                     ),
-                    Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          Expanded(
-                              child: SecondaryButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  text: Resources.strings.backButton)),
-                          const SizedBox(
-                            width: 12.0,
-                          ),
-                          Expanded(
-                            child: PrimaryButton(
-                                onPressed: () {
-                                  onContinue(true);
-                                },
-                                text: Resources.strings.continueButton,
-                                disabled: !termsChecked),
-                          )
-                        ]),
+                    BlocBuilder<DocumentFormBloc, DocumentFormInitial>(
+                      builder: (context, state) {
+                        return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Expanded(
+                                  child: SecondaryButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      text: Resources.strings.backButton)),
+                              const SizedBox(
+                                width: 12.0,
+                              ),
+                              Expanded(
+                                child: PrimaryButton(
+                                    onPressed: () {
+                                      if (state.termsChecked) {
+                                        onContinue(true);
+                                      } else {
+                                        null;
+                                      }
+                                    },
+                                    text: Resources.strings.continueButton,
+                                    disabled: !state.termsChecked),
+                              )
+                            ]);
+                      },
+                    ),
                   ]),
                 ),
               ],

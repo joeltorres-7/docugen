@@ -1,5 +1,3 @@
-import 'package:docugen/views/components/buttons/primary_button.dart';
-import 'package:docugen/views/components/buttons/secondary_button.dart';
 import 'package:docugen/views/components/cards/contract_form.dart';
 import 'package:docugen/views/components/cards/terms_card.dart';
 import 'package:docugen/views/styles/resources.dart';
@@ -13,26 +11,14 @@ class BuilderView extends StatefulWidget {
 }
 
 class DocumentBuilder extends State<BuilderView> {
-  late bool _termsCheckedState;
-  late String _documentType;
   late Widget _builderCurrent;
   late GlobalKey<FormState> _contractFormKey;
 
   @override
   void initState() {
-    _termsCheckedState = false;
-    _documentType = '';
     _contractFormKey = GlobalKey<FormState>();
-    _builderCurrent = TermsCard(termsChecked: _termsCheckedState, onTermsChecked: _handleTermsChecked, onContinue: _handleTermsContinue);
+    _builderCurrent = TermsCard(onContinue: _handleTermsContinue);
     super.initState();
-  }
-
-  void _handleTermsChecked(bool checked) {
-    setState(() {
-      print('Received as: ' + checked.toString());
-      _termsCheckedState = checked;
-      print('Changed to: ' + _termsCheckedState.toString());
-    });
   }
 
   void _handleTermsContinue(bool checked) {

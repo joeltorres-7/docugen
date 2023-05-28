@@ -71,7 +71,8 @@ class Home extends StatelessWidget {
 
 Route _builderRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => BuilderView(),
+    pageBuilder: (context, animation, secondaryAnimation) => const BuilderView(),
+    transitionDuration: const Duration(seconds: 2),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return child;
     },
